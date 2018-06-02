@@ -1,11 +1,10 @@
 PATH
   remote: .
   specs:
-    fie (0.1.0)
-      aes (~> 0.5.0)
-      rails
-      railties
-      redis (~> 4.0.1)
+    fie (0.1.1)
+      rails (~> 5.2, >= 5.2.0)
+      railties (~> 5.2, >= 5.2.0)
+      redis (~> 4.0, >= 4.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -51,7 +50,6 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    aes (0.5.0)
     arel (9.0.0)
     ast (2.4.0)
     builder (3.2.3)
@@ -108,8 +106,6 @@ GEM
       hike (~> 1.2)
       parser (= 2.3.3.1)
       sourcemap (~> 0.1.0)
-    opal-actioncable (0.2.3)
-      opal (~> 0.9)
     parser (2.3.3.1)
       ast (~> 2.2)
     pry (0.11.3)
@@ -182,13 +178,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.16)
+  bundler (~> 1.16, >= 1.16)
   fie!
-  guard-rake
-  opal
-  opal-actioncable
-  rake (~> 10.0)
-  rspec (~> 3.0)
+  guard-rake (~> 1.0.0, >= 1.0.0)
+  opal (~> 0.11.0, >= 0.11.0)
+  rake (~> 10.0, >= 10.0)
+  rspec (~> 3.0, >= 3.0)
 
 BUNDLED WITH
    1.16.1
