@@ -94,6 +94,9 @@ module Fie
       end
 
       def initialize_getters_and_setters(variables, variables_from_view: true)
+        variables.delete('fie_controller_name') if variables['fie_controller_name']
+        variables.delete('fie_action_name') if variables['fie_action_name']
+
         variables.each do |variable_name, variable_value|
           self.class_eval do
             define_method(variable_name) do
