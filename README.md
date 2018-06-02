@@ -42,9 +42,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Fie project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/fie/blob/master/CODE_OF_CONDUCT.md). -->
-
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
+Everyone interacting in the Fie project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/fie/blob/master/CODE_OF_CONDUCT.md). 
 
 [![Beerpay](https://beerpay.io/raen79/fie/badge.svg?style=beer-square)](https://beerpay.io/raen79/fie)  [![Beerpay](https://beerpay.io/raen79/fie/make-wish.svg?style=flat-square)](https://beerpay.io/raen79/fie?focus=wish)
+-->
