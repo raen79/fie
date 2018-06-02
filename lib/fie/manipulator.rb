@@ -1,4 +1,5 @@
 require 'fie/commander_closed'
+require 'redis'
 
 module Fie
   class Manipulator

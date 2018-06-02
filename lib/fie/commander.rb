@@ -1,5 +1,6 @@
 require 'fie/state'
 require 'fie/pools'
+require 'redis'
 
 module Fie
   class Commander < ActionCable::Channel::Base

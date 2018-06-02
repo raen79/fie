@@ -1,3 +1,4 @@
+require 'redis'
 require 'fie/state/track'
 require 'fie/state/changelog'
 
