@@ -32,6 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'opal'
   spec.add_development_dependency 'guard-rake'
   spec.add_dependency 'redis', '~> 4.0.1'
-  spec.add_dependency 'rails'
+  spec.add_dependency 'rails', '>= 5.2.0'
   spec.add_dependency 'railties'
 end
