@@ -1,8 +1,10 @@
 module Fie
   module Track
     def track_changes_in_objects(object)
-      if object.is_a?(Array) || object.is_a?(Hash)
-        track_changes_in_array_or_hash(object)
+      if object.is_a?(Array)
+        track_changes_in_array(object)
+      elsif object.is_a?(Hash)
+        track_changes_in_hash(object)
       elsif !object.duplicable? || object.is_a?(String) || object.is_a?(Time)
         nil
       else
@@ -23,7 +25,39 @@ module Fie
     end
     
     private
-      def track_changes_in_array_or_hash(object)
+      def track_changes_in_array(object)
+        state = self
+
+        unless object.frozen?
+          object.class_eval do
+            alias_method('previous_[]=', '[]=')
+            alias_method('previous_<<', '<<')
+            alias_method('previous_push', 'push')
+            
+            define_method('[]=') do |key, value|
+              send('previous_[]=', key, value)
+              state.permeate
+            end
+
+            define_method('<<') do |value|
+              send('previous_<<', value)
+              state.permeate
+            end
+
+
+            define_method('push') do |value|
+              send('previous_push', value)
+              state.permeate
+            end
+          end
+        end
+
+        object.each do |value|
+          track_changes_in_objects(value)
+        end
+      end
+
+      def track_changes_in_hash(object)
         state = self
 
         unless object.frozen?
@@ -88,7 +122,11 @@ module Fie
           array.class_eval do
             begin
               remove_method :'previous_[]='
+              remove_method :'previous_<<'
+              remove_method :previous_push
               remove_method :'[]='
+              remove_method :'<<'
+              remove_method :push
             rescue
             end
           end
