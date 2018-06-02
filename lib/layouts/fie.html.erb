@@ -3,7 +3,8 @@
 
   <% assigns.symbolize_keys.map do |assigns_name, assigns_value| %>
     <% unless assigns_value.blank? || assigns_name == :marked_for_same_origin_verification %>
-      <span fie-variable='<%= assigns_name %>' fie-value='<%= AES.encrypt Marshal.dump(assigns_value), Rails.application.secrets.aes %>'></span>
+      <% encryptor = ActiveSupport::MessageEncryptor.new Rails.application.credentials[:secret_key_base] %>
+      <span fie-variable='<%= assigns_name %>' fie-value='<%= encryptor.encrypt_and_sign Marshal.dump(assigns_value) %>'></span>
     <% end %>
   <% end %>
 
