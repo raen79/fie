@@ -6,6 +6,8 @@ TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
+[![Join the chat at https://gitter.im/rails-fie/Lobby](https://badges.gitter.im/rails-fie/Lobby.svg)](https://gitter.im/rails-fie/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Add this line to your application's Gemfile:
 
 ```ruby
