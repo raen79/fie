@@ -82,7 +82,7 @@ module Fie
       end
 
       def value
-        @element.value || @element.innerText
+        @element.value
       end
 
       def unwrapped_element
