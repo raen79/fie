@@ -7,6 +7,7 @@ module Fie
         @channel_name = channel_name
         @identifier = identifier
         @cable = cable
+        @event = Event.new('fieChanged')
 
         @subscription = $$.App.cable.subscriptions.create(
           { channel: @channel_name, identifier: @identifier },

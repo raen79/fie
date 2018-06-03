@@ -22,6 +22,7 @@ module Fie
     def process_command(command, parameters = {})
       case command
       when 'refresh_view'
+        @event.dispatch
         $$.diff.innerHTML(Element.fie_body.unwrapped_element, parameters['html'])
       when 'subscribe_to_pools'
         parameters['subjects'].each do |subject|
