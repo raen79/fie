@@ -70,7 +70,7 @@ module Fie
         changed_object_name = Regexp.new('(?:^|])([^[\\]]+)(?:\\[|$)').match(input_element.name)[0][0..-2]
         changed_object_key_chain = input_element.name.scan(Regexp.new '(?<=\\[).+?(?=\\])')
 
-        is_form_object = !changed_object_key_chain.nil? && !changed_object_name.nil?
+        is_form_object = !changed_object_key_chain.empty? && !changed_object_name.nil?
         is_fie_nested_object = Util.view_variables.include? changed_object_name
         is_fie_form_object = is_form_object && is_fie_nested_object
 
