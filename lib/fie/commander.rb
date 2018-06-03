@@ -99,7 +99,7 @@ module Fie
           alias_method("sub_#{name}", name)
           remove_method(name)
           define_method(name) do |params|
-            @caller = params['caller']
+            @caller = params['caller'].symbolize_keys
             @controller_name = params['controller_name']
             @action_name = params['action_name']
             @connection_uuid = self.params['identifier']
