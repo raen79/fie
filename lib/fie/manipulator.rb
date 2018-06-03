@@ -13,6 +13,16 @@ module Fie
       end
     end
 
+    def execute_js_function(name, *arguments)
+      ActionCable.server.broadcast \
+        Fie::Commander.commander_name(@fie_connection_uuid),
+        command: 'execute_function',
+        parameters: {
+          name: name,
+          arguments: arguments
+        }
+    end
+
     private
       def commander_exists?(commander_name)
         !redis.get(commander_name).nil?
