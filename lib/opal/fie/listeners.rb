@@ -8,22 +8,29 @@ module Fie
       @cable = cable
 
       initialize_input_elements
-      initialize_fie_events [:click, :submit, :scroll, :keyup, :keydown]
+      initialize_fie_events [:click, :submit, :scroll, :keyup, :keydown, :enter]
     end
 
     private
       def initialize_fie_events(event_names)
-        event_names.each do |event_name|
-          Element.fie_body.add_event_listener(event_name, "[fie-#{ event_name }]:not([fie-#{ event_name }=''])") do |event|
-            element = Element.new(element: event.target)
-            remote_function_name = element["fie-#{ event_name }"]
-            function_parameters = JSON.parse(element['fie-parameters'] || {})
+        event_names.each do |fie_event_name|
+          event_name = fie_event_name
+          event_name = :keydown if event_name == :enter
 
-            @cable.call_remote_function \
-              element: element,
-              function_name: remote_function_name,
-              event_name: event_name,
-              parameters: function_parameters
+          Element.fie_body.add_event_listener(event_name, "[fie-#{ fie_event_name }]:not([fie-#{ fie_event_name }=''])") do |event|
+            event_is_valid = (fie_event_name == :enter && event.keyCode == 13) || fie_event_name != :enter
+
+            if event_is_valid
+              element = Element.new(element: event.target)
+              remote_function_name = element["fie-#{ fie_event_name }"]
+              function_parameters = JSON.parse(element['fie-parameters'] || {})
+
+              @cable.call_remote_function \
+                element: element,
+                function_name: remote_function_name,
+                event_name: event_name,
+                parameters: function_parameters
+            end
           end
         end
       end
