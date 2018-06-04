@@ -107,7 +107,8 @@ module Fie
             begin
               remove_method :'previous_[]='
               remove_method :'[]='
-            rescue
+            rescue Exception => exception
+              puts exception.message
             end
           end
         end
@@ -127,7 +128,8 @@ module Fie
               remove_method :'[]='
               remove_method :'<<'
               remove_method :push
-            rescue
+            rescue Exception => exception
+              puts exception.message
             end
           end
         end
@@ -139,27 +141,28 @@ module Fie
 
       def untrack_changes_in_object(object)
         object.methods.each do |attribute_name, attribute_value|
-          is_setter =
-            attribute_name.to_s.ends_with?('=') &&
+          is_setter = attribute_name.to_s.ends_with?('=') &&
             attribute_name.to_s.match(/[A-Za-z]/) &&
             !attribute_name.to_s.start_with?('previous_')
 
           if is_setter
-            unless object.frozen?
-              object.class_eval do
-                begin
-                  remove_method :"previous_#{attribute_name}"
-                  remove_method :"#{attribute_name}"
-                rescue
-                end
-              end
-            end
+            remove_tracked_object_methods(object, attribute_name) unless object.frozen?
 
             getter_name = attribute_name.to_s.chomp('=').to_sym
             object_has_getter = object.methods.include?(getter_name)
-            if object_has_getter
-              untrack_changes_in_objects object.send(getter_name)
-            end
+
+            untrack_changes_in_objects object.send(getter_name) if object_has_getter
+          end
+        end
+      end
+
+      def remove_tracked_object_methods(object, attribute_name)
+        object.class_eval do
+          begin
+            remove_method :"previous_#{ attribute_name }"
+            remove_method :"#{ attribute_name }"
+          rescue Exception => exception
+            puts exception.message
           end
         end
       end
