@@ -8,7 +8,7 @@ module Fie
 
     def initialize
       connection_uuid = SecureRandom.uuid
-      commander_name = "#{ controller_name.capitalize }Commander"
+      commander_name = "#{ camelize(controller_name) }Commander"
 
       @commander = Commander.new(channel_name: commander_name, identifier: connection_uuid, cable: self)
       @pools = {}
@@ -54,6 +54,10 @@ module Fie
 
       def view_name_element
         Element.body.query_selector('[fie-controller]:not([fie-controller=""])');
+      end
+
+      def camelize(string)
+        string.split('_').collect(&:capitalize).join
       end
   end
 end
