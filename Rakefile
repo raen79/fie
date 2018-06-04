@@ -8,7 +8,7 @@ RSpec::Core::RakeTask.new(:spec)
 task :default => :spec
 
 desc 'Build opal app'
-task :build do
+task :build_opal do
   Opal.append_path('./lib/opal')
   Opal.append_path('./node_modules/diffhtml/dist')
 

@@ -15,6 +15,6 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
-guard 'rake', :task => 'build' do
+guard 'rake', :task => 'build_opal' do
   watch %r{^lib/opal/.+\.rb$}
 end
