@@ -14,13 +14,17 @@ module Fie
     end
 
     def execute_js_function(name, *arguments)
-      ActionCable.server.broadcast \
-        Fie::Commander.commander_name(@fie_connection_uuid),
-        command: 'execute_function',
-        parameters: {
-          name: name,
-          arguments: arguments
-        }
+      commander_name = Commander.commander_name(@fie_connection_uuid)
+
+      if commander_exists?(commander_name)
+        ActionCable.server.broadcast \
+          commander_name,
+          command: 'execute_function',
+          parameters: {
+            name: name,
+            arguments: arguments
+          }
+      end
     end
 
     private
