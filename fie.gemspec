@@ -13,10 +13,15 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://fie.eranpeer.co'
   spec.license       = 'MIT'
 
-  spec.files         = ['spec', 'lib']
+  spec.files = 
+    Dir['lib/*.rb'] +
+    Dir['lib/fie/*.rb'] +
+    Dir['lib/fie/state/*.rb'] +
+    Dir['lib/fie/layouts/*.html.erb'] +
+    Dir['vendor/javascript/fie.js']
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ['lib']
+  spec.require_paths = ['lib', 'vendor']
 
   spec.add_development_dependency 'bundler', '~> 1.16', '>= 1.16'
   spec.add_development_dependency 'rake', '~> 10.0', '>= 10.0'
