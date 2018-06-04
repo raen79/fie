@@ -9,16 +9,11 @@ Gem::Specification.new do |spec|
   spec.email         = ['eran.peer79@gmail.com']
 
   spec.summary       = %q{Fie is a Rails-centric frontend framework running over a permanent WebSocket connection.}
-  spec.metadata    = { "source_code_uri" => "https://github.com/raen79/fie" }
+  spec.metadata      = { "source_code_uri" => "https://github.com/raen79/fie" }
   spec.homepage      = 'https://fie.eranpeer.co'
   spec.license       = 'MIT'
 
-  spec.files = 
-    Dir['lib/*.rb'] +
-    Dir['lib/fie/*.rb'] +
-    Dir['lib/fie/state/*.rb'] +
-    Dir['lib/fie/layouts/*.html.erb'] +
-    Dir['vendor/javascript/fie.js']
+  spec.files         = Dir.glob("{bin,lib, vendor}/**/*") + %w(LICENSE README.md)
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib', 'vendor']
