@@ -23,7 +23,7 @@ module Fie
         untrack_changes_in_object(object)
       end
     end
-    
+
     private
       def track_changes_in_array(object)
         state = self
@@ -33,7 +33,7 @@ module Fie
             alias_method('previous_[]=', '[]=')
             alias_method('previous_<<', '<<')
             alias_method('previous_push', 'push')
-            
+
             define_method('[]=') do |key, value|
               send('previous_[]=', key, value)
               state.permeate
@@ -139,7 +139,7 @@ module Fie
 
       def untrack_changes_in_object(object)
         object.methods.each do |attribute_name, attribute_value|
-          is_setter = 
+          is_setter =
             attribute_name.to_s.ends_with?('=') &&
             attribute_name.to_s.match(/[A-Za-z]/) &&
             !attribute_name.to_s.start_with?('previous_')

@@ -4,7 +4,7 @@ module Fie
   class Util
     class << self
       include Fie::Native
-      
+
       def exec_js(name, arguments = [])
         Native(`eval(#{ name })(#{ arguments.join(' ') })`)
       end

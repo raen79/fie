@@ -29,11 +29,11 @@ module Fie
         if object.is_a?(Hash) || object.is_a?(Array)
           node_name = node_name.to_i if object.is_a?(Array)
           object_node = object[node_name]
-          update_object_using_changelog(changelog_node, object_node)
         else
           object_node = object.send(node_name)
-          update_object_using_changelog(changelog_node, object_node)
         end
+
+        update_object_using_changelog(changelog_node, object_node)
       end
 
       def update_object_value(object:, node_name:, value:)

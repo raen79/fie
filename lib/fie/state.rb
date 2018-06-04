@@ -12,7 +12,7 @@ module Fie
       @action_name = action_name
       @uuid = uuid
       @view_variables = view_variables
-      
+
       if !view_variables.nil?
         initialize_getters_and_setters(view_variables)
       else
@@ -26,7 +26,7 @@ module Fie
       instance_variables_names = instance_variables - [ :@controller_name, :@action_name, :@uuid, :@view_variables ]
 
       attribute_entries_array = instance_variables_names.map do |instance_variable_name|
-        attribute_name = instance_variable_name.to_s.gsub('@', '')
+        attribute_name = instance_variable_name.to_s.delete('@')
         attribute_value = instance_variable_get(instance_variable_name)
 
         [attribute_name, attribute_value]
@@ -45,7 +45,7 @@ module Fie
         else
           value = "\e[1;34m#{value.inspect}\e[0m"
         end
-        
+
         pretty_print += "\n #{name}: #{value}"
       end
 
@@ -102,12 +102,12 @@ module Fie
             define_method(variable_name) do
               instance_variable_get("@#{variable_name}")
             end
-  
+
             define_method("#{variable_name}=") do |value|
               instance_variable_set("@#{variable_name}", value)
             end
           end
-  
+
           if variables_from_view
             instance_variable_set("@#{variable_name}", unmarshal_value(variable_value))
           else

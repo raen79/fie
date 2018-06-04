@@ -14,24 +14,30 @@ module Fie
     private
       def initialize_fie_events(event_names)
         event_names.each do |fie_event_name|
+          selector = "[fie-#{ fie_event_name }]:not([fie-#{ fie_event_name }=''])"
+
           event_name = fie_event_name
           event_name = :keydown if event_name == :enter
 
-          Element.fie_body.add_event_listener(event_name, "[fie-#{ fie_event_name }]:not([fie-#{ fie_event_name }=''])") do |event|
-            event_is_valid = (fie_event_name == :enter && event.keyCode == 13) || fie_event_name != :enter
-
-            if event_is_valid
-              element = Element.new(element: event.target)
-              remote_function_name = element["fie-#{ fie_event_name }"]
-              function_parameters = JSON.parse(element['fie-parameters'] || {})
-
-              @cable.call_remote_function \
-                element: element,
-                function_name: remote_function_name,
-                event_name: event_name,
-                parameters: function_parameters
-            end
+          Element.fie_body.add_event_listener(event_name, selector) do |event|
+            handle_fie_event(fie_event_name, event_name, event)
           end
+        end
+      end
+
+      def handle_fie_event(fie_event_name, event_name, event)
+        event_is_valid = (fie_event_name == :enter && event.keyCode == 13) || fie_event_name != :enter
+
+        if event_is_valid
+          element = Element.new(element: event.target)
+          remote_function_name = element["fie-#{ fie_event_name }"]
+          function_parameters = JSON.parse(element['fie-parameters'] || {})
+
+          @cable.call_remote_function \
+            element: element,
+            function_name: remote_function_name,
+            event_name: event_name,
+            parameters: function_parameters
         end
       end
 
@@ -92,7 +98,7 @@ module Fie
       def build_changelog(object_key_chain, object_name, changelog, input_element)
         is_final_key = -> (key) { key == object_key_chain[-1] }
         object_final_key_value = input_element.value
-        
+
         changelog[object_name] = {}
         changelog = changelog[object_name]
 

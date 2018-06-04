@@ -13,7 +13,7 @@ module Fie
             @element = $$.document
           else
             @element = $$.document.querySelector(selector)
-          end        
+          end
         end
       end
 
@@ -30,11 +30,11 @@ module Fie
           event = Native(`#{ event }`)
 
           if selector.nil?
-            block.call(event)
+            yield event
           else
             if event.target.matches(selector)
-              block.call(event)
-            end            
+              yield event
+            end
           end
         end
       end
@@ -65,7 +65,7 @@ module Fie
 
       def descriptor
         descriptor = @element.tagName
-        
+
         id_is_blank =
           id.nil? || id == ''
 
@@ -73,7 +73,7 @@ module Fie
           class_name.nil? || class_name == ''
 
         if !id_is_blank
-          descriptor + "##{ id }" 
+          descriptor + "##{ id }"
         elsif !class_name_is_blank
           descriptor + ".#{ class_name }"
         else
