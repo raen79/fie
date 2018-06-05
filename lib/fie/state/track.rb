@@ -33,6 +33,8 @@ module Fie
             alias_method('previous_[]=', '[]=')
             alias_method('previous_<<', '<<')
             alias_method('previous_push', 'push')
+            alias_method('previous_delete_at', 'delete_at')
+            alias_method('previous_delete', 'delete')
 
             define_method('[]=') do |key, value|
               send('previous_[]=', key, value)
@@ -49,6 +51,16 @@ module Fie
               send('previous_push', value)
               state.permeate
             end
+
+            define_method('delete_at') do |value|
+              send('previous_delete_at', value)
+              state.permeate
+            end
+
+            define_method('delete') do |value|
+              send('previous_delete', value)
+              state.permeate
+            end
           end
         end
 
@@ -63,8 +75,15 @@ module Fie
         unless object.frozen?
           object.class_eval do
             alias_method('previous_[]=', '[]=')
+            alias_method('previous_delete', 'delete')
+
             define_method('[]=') do |key, value|
               send('previous_[]=', key, value)
+              state.permeate
+            end
+
+            define_method('delete') do |value|
+              send('previous_delete', value)
               state.permeate
             end
           end
@@ -105,8 +124,10 @@ module Fie
         unless hash.frozen?
           hash.class_eval do
             begin
-              remove_method :'previous_[]='
-              remove_method :'[]='
+              [:'[]=', :delete].each do |method_name|
+                remove_method method_name
+                remove_method :"previous_#{ method_name }"
+              end
             rescue Exception => exception
               puts exception.message
             end
@@ -122,12 +143,10 @@ module Fie
         unless array.frozen?
           array.class_eval do
             begin
-              remove_method :'previous_[]='
-              remove_method :'previous_<<'
-              remove_method :previous_push
-              remove_method :'[]='
-              remove_method :'<<'
-              remove_method :push
+              [:'[]=', :'<<', :push, :delete_at, :delete].each do |method_name|
+                remove_method method_name
+                remove_method :"previous_#{ method_name }"
+              end
             rescue Exception => exception
               puts exception.message
             end
