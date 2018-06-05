@@ -1,8 +1,6 @@
 module Fie
   module Changelog
     def update_object_using_changelog(changelog, object = self)
-      object = object.with_indifferent_access if object.is_a?(Hash)
-
       unless changelog.blank?
         changelog.each do |node_name, _|
           changelog_node = changelog[node_name]
@@ -29,6 +27,7 @@ module Fie
         if object.is_a?(Hash) || object.is_a?(Array)
           node_name = node_name.to_i if object.is_a?(Array)
           object_node = object[node_name]
+          puts object_node
         else
           object_node = object.send(node_name)
         end
@@ -37,9 +36,18 @@ module Fie
       end
 
       def update_object_value(object:, node_name:, value:)
-        if object.is_a?(Hash) || object.is_a?(Array)
+        if object.is_a?(Array)
           node_name = node_name.to_i if object.is_a?(Array)
           object[node_name] = value
+        elsif object.is_a?(Hash)
+          string_in_hash = object.keys.include? node_name
+          symbol_in_hash = object.keys.include? node_name.to_sym
+
+          if string_in_hash
+            object[node_name] = value
+          elsif symbol_in_hash
+            object[node_name.to_sym] = value
+          end
         else
           object.send("#{node_name}=", value)
         end

@@ -33,6 +33,10 @@ module Fie
           remote_function_name = element["fie-#{ fie_event_name }"]
           function_parameters = JSON.parse(element['fie-parameters'] || {})
 
+          if @timer
+            @timer.fast_forward
+          end
+
           @cable.call_remote_function \
             element: element,
             function_name: remote_function_name,
@@ -42,7 +46,7 @@ module Fie
       end
 
       def initialize_input_elements
-        timer = Timeout.new(0) { }
+        @timer = Timeout.new(0) { }
 
         typing_input_types = ['text', 'password', 'search', 'tel', 'url']
 
@@ -55,12 +59,14 @@ module Fie
         end
 
         Element.fie_body.add_event_listener('keydown', typing_input_selector) do |event|
-          timer.clear
+          unless event.keyCode == 13
+            @timer.clear
 
-          input_element = Element.new(element: event.target)
+            input_element = Element.new(element: event.target)
 
-          timer = Timeout.new(500) do
-            update_state_using_changelog(input_element)
+            @timer = Timeout.new(500) do
+              update_state_using_changelog(input_element)
+            end
           end
         end
 
