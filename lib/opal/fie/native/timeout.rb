@@ -12,7 +12,12 @@ module Fie
 
       def fast_forward
         `clearTimeout(#{@timeout})`
-        @proc.call
+
+        begin
+          @proc.call
+        rescue Exception => exception
+          puts exception.message
+        end
       end
     end
   end

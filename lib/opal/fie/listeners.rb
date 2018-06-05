@@ -6,6 +6,7 @@ module Fie
 
     def initialize(cable)
       @cable = cable
+      @timer = Timeout.new(0) { 'hello' }
 
       initialize_input_elements
       initialize_fie_events [:click, :submit, :scroll, :keyup, :keydown, :enter]
@@ -33,9 +34,7 @@ module Fie
           remote_function_name = element["fie-#{ fie_event_name }"]
           function_parameters = JSON.parse(element['fie-parameters'] || {})
 
-          if @timer
-            @timer.fast_forward
-          end
+          @timer.fast_forward
 
           @cable.call_remote_function \
             element: element,
@@ -46,8 +45,6 @@ module Fie
       end
 
       def initialize_input_elements
-        @timer = Timeout.new(0) { }
-
         typing_input_types = ['text', 'password', 'search', 'tel', 'url']
 
         typing_input_selector = (['textarea'] + typing_input_types).reduce do |selector, input_type|

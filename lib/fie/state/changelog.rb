@@ -24,10 +24,18 @@ module Fie
 
     private
       def traverse(changelog:, object:, node_name:, changelog_node:)
-        if object.is_a?(Hash) || object.is_a?(Array)
-          node_name = node_name.to_i if object.is_a?(Array)
+        if object.is_a?(Array)
+          node_name = node_name.to_i
           object_node = object[node_name]
-          puts object_node
+        elsif object.is_a?(Hash)
+          string_in_hash = object.keys.include? node_name
+          symbol_in_hash = object.keys.include? node_name.to_sym
+          
+          if string_in_hash
+            object_node = object[node_name]
+          elsif symbol_in_hash
+            object_node = object[node_name.to_sym]
+          end          
         else
           object_node = object.send(node_name)
         end
