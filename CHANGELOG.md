@@ -2,6 +2,7 @@
 ## Unreleased
 ### 0.2.0
 - Add transitions
+- Add fie nil types
 
 ## Released
 ### 0.1.11
