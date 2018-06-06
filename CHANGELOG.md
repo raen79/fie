@@ -6,6 +6,8 @@
 - Solve security issues
 
 ## Released
+### 0.1.12
+- Fixed breaking bug in pools
 ### 0.1.11
 - Fixed bug in tracking hashes
 - Three way data binding in form inputs was conflicting with enter fie events. Therefore three way data binding no longer reacts to the enter key.
