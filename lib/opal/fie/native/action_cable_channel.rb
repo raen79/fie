@@ -23,6 +23,7 @@ module Fie
       end
 
       def connected
+        perform('initialize_pools')
         puts "Connected to #{ @channel_name } with identifier #{ @identifier }"
       end
 

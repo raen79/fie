@@ -9,7 +9,6 @@ module Fie
 
     def subscribed
       stream_from Commander.commander_name(params['identifier'])
-      initialize_pools
     end
 
     def initialize_state(params)
@@ -22,6 +21,15 @@ module Fie
 
     def unsubscribed
       redis.del Fie::Commander.commander_name(params[:identifier])
+    end
+
+    def initialize_pools
+      ActionCable.server.broadcast \
+        Fie::Commander.commander_name(params[:identifier]),
+        command: 'subscribe_to_pools',
+        parameters: {
+          subjects: @@pools_subjects.to_a
+        }
     end
 
     def state
@@ -51,15 +59,6 @@ module Fie
         $redis ||= Redis.new
       end
 
-      def initialize_pools
-        ActionCable.server.broadcast \
-          Fie::Commander.commander_name(params[:identifier]),
-          command: 'subscribe_to_pools',
-          parameters: {
-            subjects: @@pools_subjects.to_a
-          }
-      end
-
     class << self
       def pool(subject, &block)
         @@pools_subjects.add(subject)
@@ -83,7 +82,8 @@ module Fie
           :state,
           :unsubscribed,
           :modify_state_using_changelog,
-          :execute_js_function
+          :execute_js_function,
+          :initialize_pools
         ]
 
         unless @@disable_override || super_commander_method_names.include?(name)

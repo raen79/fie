@@ -1,7 +1,7 @@
 module Fie
   class Pools < ActionCable::Channel::Base
     def subscribed
-      stream_from Pools.pool_name(params[:identifier])
+      stream_from Fie::Pools.pool_name(params[:identifier])
     end
 
     class << self
