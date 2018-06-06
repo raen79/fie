@@ -3,6 +3,7 @@
 ### 0.2.0
 - Add transitions
 - Add fie nil types
+- Solve security issues
 
 ## Released
 ### 0.1.11
