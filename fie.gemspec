@@ -18,9 +18,12 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib', 'vendor']
 
+  spec.test_files = Dir["spec/**/*"]
+
   spec.add_development_dependency 'bundler', '~> 1.16', '>= 1.16'
   spec.add_development_dependency 'rake', '~> 10.0', '>= 10.0'
-  spec.add_development_dependency 'rspec', '~> 3.0', '>= 3.0'
+  spec.add_development_dependency 'rspec-rails', '~> 3.7', '>= 3.7'
+  spec.add_development_dependency 'factory_bot_rails', '~> 4.10.0', '>= 4.10.0'
   spec.add_development_dependency 'opal', '~> 0.11.0', '>= 0.11.0'
   spec.add_development_dependency 'guard-rake', '~> 1.0.0', '>= 1.0.0'
   spec.add_runtime_dependency 'redis', '~> 4.0', '>= 4.0.1'

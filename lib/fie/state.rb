@@ -58,7 +58,7 @@ module Fie
       redis.set Fie::Commander.commander_name(@uuid), Marshal.dump(self)
 
       rendered_view = ApplicationController.render \
-        "#{@controller_name}/#{@action_name}",
+        "#{ @controller_name }/#{ @action_name }",
         assigns: attributes.merge(fie_controller_name: @controller_name, fie_action_name: @action_name),
         layout: 'fie'
 
