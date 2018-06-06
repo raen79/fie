@@ -6,6 +6,8 @@
 - Solve security issues
 
 ## Released
+### 0.1.13
+- Improved the reliability of the connection to pools (no more dropouts at page load)
 ### 0.1.12
 - Fixed breaking bug in pools
 ### 0.1.11
