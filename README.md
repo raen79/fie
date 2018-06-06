@@ -104,7 +104,7 @@ The project does not use javascript, but opal. To build the opal project (in `li
 
 To transfer gems and node packages to opal, add `Opal.use_gem(gem_name)` or `Opal.append_path('./node_modules/module_name/dist')` in the Rakefile within the `build_opal` task.
 
-The ruby files can be found within `lib\opal` and their development is the same as in any other gem.
+The ruby files can be found within `lib/fie` and their development is the same as in any other gem.
 
 Please add tests if you add new features or resolve bugs.
 
