@@ -28,7 +28,7 @@ module Fie
         parameters['subjects'].each do |subject|
           @cable.subscribe_to_pool(subject)
         end
-      when 'publish_to_pools'
+      when 'publish_to_pool'
         subject = parameters['subject']
         object = parameters['object']
 
@@ -36,7 +36,7 @@ module Fie
       when 'execute_function'
         Util.exec_js(parameters['name'], parameters['arguments'])
       else
-        console.log("Command: #{ command }, Parameters: #{ parameters }")
+        puts "Command: #{ command }, Parameters: #{ parameters }"
       end
     end
   end

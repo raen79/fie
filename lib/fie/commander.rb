@@ -20,13 +20,6 @@ module Fie
         uuid: self.params[:identifier]
     end
 
-    def handle_pool_callbacks(params)
-      subject = params['subject']
-      object = Marshal.load(params['object'])
-
-      run_hook :"#{subject}_pool", object
-    end
-
     def unsubscribed
       redis.del Fie::Commander.commander_name(params[:identifier])
     end
@@ -72,7 +65,7 @@ module Fie
         @@pools_subjects.add(subject)
 
         pool_name = Fie::Pools.pool_name(subject)
-        define_method("#{pool_name}_callback") do |object:|
+        define_method("#{ pool_name }_callback") do |object:|
           @published_object = Marshal.load(object)
           instance_eval(&block)
         end
@@ -83,7 +76,15 @@ module Fie
       end
 
       def method_added(name)
-        super_commander_method_names = [:subscribed, :refresh_view, :identifier, :state, :unsubscribed, :modify_state_using_changelog]
+        super_commander_method_names = [
+          :subscribed,
+          :refresh_view, 
+          :identifier,
+          :state,
+          :unsubscribed,
+          :modify_state_using_changelog,
+          :execute_js_function
+        ]
 
         unless @@disable_override || super_commander_method_names.include?(name)
           @@disable_override = true
@@ -99,7 +100,7 @@ module Fie
           alias_method("sub_#{name}", name)
           remove_method(name)
           define_method(name) do |params|
-            @caller = params['caller'].symbolize_keys
+            @caller = params['caller'].symbolize_keys if params['caller']
             @controller_name = params['controller_name']
             @action_name = params['action_name']
             @connection_uuid = self.params['identifier']
