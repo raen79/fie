@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fie (0.1.12)
+    fie (0.1.13)
       rails (~> 5.2, >= 5.2.0)
       railties (~> 5.2, >= 5.2.0)
       redis (~> 4.0, >= 4.0.1)
