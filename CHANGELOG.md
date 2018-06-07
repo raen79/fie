@@ -6,6 +6,8 @@
 - Solve security issues
 
 ## Released
+### 0.1.14
+- Solved javascript regexp bug that blocked three-way data binding
 ### 0.1.13
 - Improved the reliability of the connection to pools (no more dropouts at page load)
 ### 0.1.12
