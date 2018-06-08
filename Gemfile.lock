@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fie (0.1.14)
+    fie (0.2.0pa)
       rails (~> 5.2, >= 5.2.0)
       railties (~> 5.2, >= 5.2.0)
       redis (~> 4.0, >= 4.0.1)
@@ -196,4 +196,4 @@ DEPENDENCIES
   rspec-rails (~> 3.7, >= 3.7)
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
