@@ -31,7 +31,7 @@ module Fie
     end
 
     def subscribe_to_pool(subject)
-      @pools['subject'] = Pool.new(channel_name: 'Fie::Pools', identifier: subject, cable: self)
+      @pools[subject] = Pool.new(channel_name: 'Fie::Pools', identifier: subject, cable: self)
     end
 
     def commander

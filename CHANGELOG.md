@@ -4,8 +4,11 @@
 - Add transitions
 - Add fie nil types
 - Solve security issues
+- Improve pools speed
 
 ## Released
+### 0.2.0pa
+- Improved pools speed (through lazy broadcast)
 ### 0.1.14
 - Solved javascript regexp bug that blocked three-way data binding
 ### 0.1.13

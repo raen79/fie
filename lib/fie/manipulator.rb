@@ -6,7 +6,7 @@ module Fie
     def state
       commander_name = Commander.commander_name(@fie_connection_uuid)
 
-      if commander_exists?(commander_name)
+      if commander_exists?
         Marshal.load redis.get(commander_name)
       else
         raise Fie::CommanderClosed, commander_name
@@ -16,7 +16,7 @@ module Fie
     def execute_js_function(name, *arguments)
       commander_name = Commander.commander_name(@fie_connection_uuid)
 
-      if commander_exists?(commander_name)
+      if commander_exists?
         ActionCable.server.broadcast \
           commander_name,
           command: 'execute_function',
@@ -27,11 +27,12 @@ module Fie
       end
     end
 
+    def commander_exists?
+      commander_name = Commander.commander_name(@fie_connection_uuid)
+      !redis.get(commander_name).nil?
+    end
+
     private
-      def commander_exists?(commander_name)
-        !redis.get(commander_name).nil?
-      end
-      
       def redis
         $redis ||= Redis.new
       end

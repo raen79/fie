@@ -31,8 +31,15 @@ module Fie
       when 'publish_to_pool'
         subject = parameters['subject']
         object = parameters['object']
+        sender_uuid = parameters['sender_uuid']
 
-        perform("pool_#{ subject }_callback", { object: object })
+        perform("pool_#{ subject }_callback", { object: object, sender_uuid: sender_uuid })
+      when 'publish_to_pool_lazy'
+        subject = parameters['subject']
+        object = parameters['object']
+        sender_uuid = parameters['sender_uuid']
+
+        perform("pool_#{ subject }_callback", { object: object, sender_uuid: sender_uuid, lazy: true })
       when 'execute_function'
         Util.exec_js(parameters['name'], parameters['arguments'])
       else

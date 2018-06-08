@@ -32,6 +32,10 @@ module Fie
         }
     end
 
+    def publish(subject, object)
+      Fie::Pools.publish_lazy(subject, object, @connection_uuid)
+    end
+
     def state
       Marshal.load redis.get(Fie::Commander.commander_name params[:identifier])
     end
@@ -64,9 +68,15 @@ module Fie
         @@pools_subjects.add(subject)
 
         pool_name = Fie::Pools.pool_name(subject)
-        define_method("#{ pool_name }_callback") do |object:|
-          @published_object = Marshal.load(object)
-          instance_eval(&block)
+        define_method("#{ pool_name }_callback") do |object:, sender_uuid:, lazy: false|
+          unless @connection_uuid == sender_uuid
+            @published_object = Marshal.load(object)
+            instance_eval(&block)
+          end
+
+          if lazy
+            Fie::Pools.publish subject, Marshal.load(object), sender_uuid: @connection_uuid
+          end
         end
       end
 
@@ -83,7 +93,8 @@ module Fie
           :unsubscribed,
           :modify_state_using_changelog,
           :execute_js_function,
-          :initialize_pools
+          :initialize_pools,
+          :publish
         ]
 
         unless @@disable_override || super_commander_method_names.include?(name)

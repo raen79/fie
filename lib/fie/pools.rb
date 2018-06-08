@@ -9,13 +9,25 @@ module Fie
         "pool_#{subject}"
       end
 
-      def publish(subject, object)
+      def publish_lazy(subject, object, sender_uuid)
+        ActionCable.server.broadcast \
+          Fie::Commander.commander_name(sender_uuid),
+          command: 'publish_to_pool_lazy',
+          parameters: {
+            subject: subject,
+            object: Marshal.dump(object),
+            sender_uuid: nil
+          }
+      end
+
+      def publish(subject, object, sender_uuid: nil)
         ActionCable.server.broadcast \
           pool_name(subject),
           command: 'publish_to_pool',
           parameters: {
             subject: subject,
-            object: Marshal.dump(object)
+            object: Marshal.dump(object),
+            sender_uuid: sender_uuid
           }
       end
     end
