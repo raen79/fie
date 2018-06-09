@@ -10,4 +10,8 @@ module HelperMethods
   def decrypt(value)
     Marshal.load encryptor.decrypt_and_verify(value)
   end
+
+  def redis
+    $redis ||= Redis.new
+  end
 end

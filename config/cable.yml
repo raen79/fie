@@ -1,0 +1,8 @@
+redis: &redis
+  adapter: redis
+  url: "redis://localhost:6379/2"
+  channel_prefix: fie_test
+
+development: *redis
+test: *redis
+production: *redis
