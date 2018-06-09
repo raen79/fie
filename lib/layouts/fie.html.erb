@@ -1,7 +1,8 @@
 <span fie-body='true'>
   <%= yield %>
 
-  <% assigns.symbolize_keys.map do |assigns_name, assigns_value| %>
+  <% assigns.map do |assigns_name, assigns_value| %>
+    <% binding.pry %>
     <% unless assigns_value.blank? || assigns_name == :marked_for_same_origin_verification %>
       <% encryptor = ActiveSupport::MessageEncryptor.new Rails.application.credentials[:secret_key_base] %>
       <span fie-variable='<%= assigns_name %>' fie-value='<%= encryptor.encrypt_and_sign Marshal.dump(assigns_value) %>'></span>
