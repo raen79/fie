@@ -15,8 +15,7 @@ module Fie
           command: 'publish_to_pool_lazy',
           parameters: {
             subject: subject,
-            object: Marshal.dump(object),
-            sender_uuid: nil
+            object: Marshal.dump(object)
           }
       end
 

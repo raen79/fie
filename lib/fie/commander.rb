@@ -68,7 +68,9 @@ module Fie
         @@pools_subjects.add(subject)
 
         pool_name = Fie::Pools.pool_name(subject)
-        define_method("#{ pool_name }_callback") do |object:, sender_uuid:, lazy: false|
+        define_method("#{ pool_name }_callback") do |object:, sender_uuid: nil, lazy: false|
+          @connection_uuid = self.params['identifier']
+
           unless @connection_uuid == sender_uuid
             @published_object = Marshal.load(object)
             instance_eval(&block)
@@ -81,7 +83,7 @@ module Fie
       end
 
       def commander_name(connection_uuid)
-        "commander_#{connection_uuid}"
+        "commander_#{ connection_uuid }"
       end
 
       def method_added(name)

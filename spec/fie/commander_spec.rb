@@ -30,6 +30,8 @@ RSpec.describe Fie::Commander, type: :channel do
   let!(:connection_uuid) { '92dbabc7-60af-4658-9cc5-277846d1f813' }
   let!(:subscription) { subscribe identifier: connection_uuid }
 
+  before { subscription.singleton_class.class_variable_set(:@@pools_subjects, Set.new) }
+
   describe '#params' do
     describe ':identifier' do
       context 'when connection_uuid == 92dbabc7-60af-4658-9cc5-277846d1f813' do
@@ -67,7 +69,7 @@ RSpec.describe Fie::Commander, type: :channel do
     subject { subscription.initialize_pools }
 
     context 'when subjects are :chat and :notifications' do
-      before { subscription.singleton_class.class_variable_set :@@pools_subjects, [:chat, :notifications] }
+      before { subscription.singleton_class.class_variable_set :@@pools_subjects, Set.new([:chat, :notifications]) }
 
       it do
         expect { subject }
@@ -111,7 +113,7 @@ RSpec.describe Fie::Commander, type: :channel do
     end
   end
 
-  describe 'modify_state_using_changelog' do
+  describe '#modify_state_using_changelog' do
     let(:objects_changelog) { { key: 'value' } }
     let(:params) { { 'objects_changelog' => objects_changelog } }
 
@@ -120,7 +122,7 @@ RSpec.describe Fie::Commander, type: :channel do
     it { subscription.modify_state_using_changelog(params) }
   end
 
-  describe 'execute_js_function' do
+  describe '#execute_js_function' do
     let(:function_name) { 'console.log' }
     let(:arguments) { ['print this in console.'] }
 
@@ -130,6 +132,32 @@ RSpec.describe Fie::Commander, type: :channel do
       expect { subject }
         .to have_broadcasted_to("commander_#{ connection_uuid }")
         .with command: 'execute_function', parameters: { name: function_name, arguments: arguments }
+    end
+  end
+
+  describe '.commander_name' do
+    subject { Fie::Commander.commander_name(connection_uuid) }
+    it { is_expected.to eq("commander_#{ connection_uuid }") }
+  end
+
+  describe '.pool' do
+    before do
+      subscription.singleton_class.pool :chat do
+        puts @connection_uuid
+        puts @published_object
+      end
+    end
+
+    describe 'created callback' do
+      let(:object) { 123 }
+      let(:dumped_object) { Marshal.dump object }
+      subject { subscription.pool_chat_callback(object: dumped_object) }
+
+      it 'is expected to output @connection_uuid and @published_object' do
+        expect(STDOUT).to receive(:puts).with(connection_uuid)
+        expect(STDOUT).to receive(:puts).with(object)
+        subject
+      end
     end
   end
 end
