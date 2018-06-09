@@ -11,11 +11,11 @@ RSpec.describe Fie::Commander, type: :channel do
 
   let(:controller_name) { 'home_controller' }
   let(:action_name) { 'index' }
+  let(:state_params) { { 'view_variables' => view_variables, 'controller_name' => controller_name, 'action_name' => action_name } }
   let(:view_variables) do
     {
       users: encrypt([
         { name: 'eran', age: '20' },
-        User.new(name: 'eran', age: '20'),
         '120'
       ]),
       primitive: encrypt('120'),
@@ -47,8 +47,7 @@ RSpec.describe Fie::Commander, type: :channel do
   end
 
   describe '#initialize_state' do
-    let(:params) { { 'view_variables' => view_variables, 'controller_name' => controller_name, 'action_name' => action_name } }
-    let!(:initialize_state) { subscription.initialize_state(params) }
+    let!(:initialize_state) { subscription.initialize_state(state_params) }
     let(:redis_state) { redis.get("commander_#{ connection_uuid }") }
 
     subject { subscription.state }
@@ -75,6 +74,62 @@ RSpec.describe Fie::Commander, type: :channel do
           .to have_broadcasted_to("commander_#{ connection_uuid }")
           .with command: 'subscribe_to_pools', parameters: { subjects: ['chat', 'notifications']}
       end
+    end
+  end
+
+  describe '#publish' do
+    let(:pool_subject) { :chat }
+    let(:object) { Object.new }
+    
+    before { expect(Fie::Pools).to receive(:publish_lazy).with(pool_subject, object, connection_uuid) }
+    
+    it { subscription.publish(pool_subject, object) }
+  end
+
+  describe '#state' do
+    before { subscription.initialize_state state_params }
+
+    let(:redis_state) { Marshal.load redis.get("commander_#{ connection_uuid }") }
+    subject { subscription.state.attributes }
+
+    it { is_expected.to eq(redis_state.attributes) }
+  end
+
+  describe '#state=' do
+    let(:state_object) do 
+      Fie::State.new \
+        view_variables: view_variables,
+        controller_name: controller_name,
+        action_name: action_name,
+        uuid: connection_uuid
+    end
+
+    before { subscription.state = state_object }
+
+    it 'is expected to modify the state to the state object provided' do
+      expect(subscription.state.attributes).to eq(state_object.attributes)
+    end
+  end
+
+  describe 'modify_state_using_changelog' do
+    let(:objects_changelog) { { key: 'value' } }
+    let(:params) { { 'objects_changelog' => objects_changelog } }
+
+    before { expect_any_instance_of(Fie::State).to receive(:update_object_using_changelog).with(objects_changelog) }
+
+    it { subscription.modify_state_using_changelog(params) }
+  end
+
+  describe 'execute_js_function' do
+    let(:function_name) { 'console.log' }
+    let(:arguments) { ['print this in console.'] }
+
+    subject { subscription.execute_js_function(function_name, *arguments) }
+
+    it do
+      expect { subject }
+        .to have_broadcasted_to("commander_#{ connection_uuid }")
+        .with command: 'execute_function', parameters: { name: function_name, arguments: arguments }
     end
   end
 end

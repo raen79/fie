@@ -33,7 +33,7 @@ module Fie
     end
 
     def publish(subject, object)
-      Fie::Pools.publish_lazy(subject, object, @connection_uuid)
+      Fie::Pools.publish_lazy(subject, object, params[:identifier])
     end
 
     def state
