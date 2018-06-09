@@ -2,7 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/fie.svg)](https://badge.fury.io/rb/fie)
 [![Build Status](https://travis-ci.org/raen79/fie.svg?branch=master)](https://travis-ci.org/raen79/fie)
-[![CodeFactor](https://www.codefactor.io/repository/github/raen79/fie/badge)](https://www.codefactor.io/repository/github/raen79/fie)
+[![Maintainability](https://api.codeclimate.com/v1/badges/68db9a94db4b3f028cec/maintainability)](https://codeclimate.com/github/raen79/fie/maintainability)
 [![Join the chat at https://gitter.im/rails-fie/Lobby](https://badges.gitter.im/rails-fie/Lobby.svg)](https://gitter.im/rails-fie/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Beerpay](https://beerpay.io/raen79/fie/badge.svg?style=beer-square)](https://beerpay.io/raen79/fie)
 
