@@ -15,7 +15,7 @@ module Fie
           else
             update_object_value \
               object: object,
-              node_name:node_name,
+              node_name: node_name,
               value: changelog_node
           end
         end
@@ -35,7 +35,7 @@ module Fie
             object_node = object[node_name]
           elsif symbol_in_hash
             object_node = object[node_name.to_sym]
-          end          
+          end
         else
           object_node = object.send(node_name)
         end
