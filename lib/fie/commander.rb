@@ -63,6 +63,12 @@ module Fie
         $redis ||= Redis.new
       end
 
+      def method_keywords_hash(method_name, params)
+        method(method_name).parameters.map do |_, parameter_name|
+          [parameter_name, params[parameter_name.to_s]]
+        end.to_h
+      end
+
     class << self
       def pool(subject, &block)
         @@pools_subjects.add(subject)
@@ -109,11 +115,14 @@ module Fie
       end
 
       private
-        def restructure_subclass_method_parameters(name)
-          alias_method("sub_#{ name }", name)
-          remove_method(name)
-          define_method(name) do |params|
-            @caller = params['caller'].symbolize_keys if params['caller']
+        def restructure_subclass_method_parameters(method_name)
+          alias_method("sub_#{ method_name }", method_name)
+          remove_method(method_name)
+          define_method(method_name) do |params|
+            if caller = params['caller']
+              @caller = { value: caller['value'], id: caller['id'], class: caller['class'] }
+            end
+            
             @controller_name = params['controller_name']
             @action_name = params['action_name']
             @connection_uuid = self.params['identifier']
@@ -121,9 +130,10 @@ module Fie
             ['caller', 'action', 'controller_name', 'action_name'].each { |param| params.delete param }
 
             if params.blank?
-              self.send(:"sub_#{name}")
+              self.send(:"sub_#{ method_name }")
             else
-              self.send(:"sub_#{name}", params.symbolize_keys)
+              method_keywords_hash = method_keywords_hash(:"sub_#{ method_name }", params)
+              self.send(:"sub_#{ method_name }", method_keywords_hash)
             end
           end
         end
