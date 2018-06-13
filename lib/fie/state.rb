@@ -37,16 +37,16 @@ module Fie
 
     def inspect
       object_reference = self.to_s
-      pretty_print = "\e[0;33m#{object_reference[0..-2]}\e[0m "
+      pretty_print = "\e[0;33m#{ object_reference[0..-2] }\e[0m "
 
       attributes.each do |name, value|
         if value.is_a? String
-          value = "\e[0;31m#{value.inspect}\e[0m"
+          value = "\e[0;31m#{ value.inspect }\e[0m"
         else
-          value = "\e[1;34m#{value.inspect}\e[0m"
+          value = "\e[1;34m#{ value.inspect }\e[0m"
         end
 
-        pretty_print += "\n #{name}: #{value}"
+        pretty_print += "\n #{ name }: #{ value }"
       end
 
       pretty_print += '>'

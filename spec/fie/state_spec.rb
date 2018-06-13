@@ -57,7 +57,7 @@ RSpec.describe Fie::State do
       it { is_expected.to eq(state.attributes.to_json) }
     end
 
-    describe 'permeate' do
+    describe '#permeate' do
       it 'should render an html template which is then sent over action cable' do
         expect(ApplicationController).to receive(:render).with(
           "#{ controller_name }/#{ action_name }",
@@ -76,7 +76,7 @@ RSpec.describe Fie::State do
       end
     end
 
-    describe '`hash`' do
+    describe '#hash' do
       before { expect(state).to receive(:permeate) }
 
       context 'when setting value' do
@@ -91,7 +91,7 @@ RSpec.describe Fie::State do
         it { expect { delete_value }.to change { state.hash.count }.by(-1) }
       end
 
-      describe 'primitive' do
+      describe '#primitive' do
         context 'when setting value' do
           subject { state.hash[:primitive] }
           let!(:change_hash_value) { state.hash[:primitive] = 'value' }
@@ -101,7 +101,7 @@ RSpec.describe Fie::State do
       end
     end
 
-    describe '`users`' do
+    describe '#users' do
       before { expect(state).to receive(:permeate) }
 
       context 'when setting value' do
@@ -119,7 +119,7 @@ RSpec.describe Fie::State do
           it { is_expected.to eq('value') }
         end
         
-        describe 'name attribute' do
+        describe '#name' do
           context 'when setting value' do
             subject { state.users[0][:name] }
             let!(:change_hash_value) { state.users[0][:name] = 'value' }
@@ -148,8 +148,8 @@ RSpec.describe Fie::State do
       end
     end
 
-    describe 'attributes' do
-      describe 'users' do
+    describe '#attributes' do
+      describe '#users' do
         subject { state.attributes['users'] }
         
         it { is_expected.to include a_hash_including(name: 'eran', age: '20') }
@@ -157,17 +157,31 @@ RSpec.describe Fie::State do
         it { is_expected.to include '120' }
       end
 
-      describe 'primitive' do
+      describe '#primitive' do
         subject { state.attributes['primitive'] }
         it { is_expected.to eq('120') }
       end
 
-      describe 'hash' do
+      describe '#hash' do
         subject { state.attributes['hash'] }
 
         it { is_expected.to include(array: [1, 2, 3]) }
         it { is_expected.to include(primitive: '120') }
       end
+    end
+
+
+    describe '#inspect' do
+      subject { state.inspect }
+
+      it { is_expected.to include(state.to_s[0..-2]) }
+      it { is_expected.to include("users:") }
+      it { is_expected.to include(state.users.inspect) }
+      it { is_expected.to include("primitive:") }
+      it { is_expected.to include(state.primitive.inspect) }
+      it { is_expected.to include("hash:") }
+      it { is_expected.to include(state.hash.inspect) }
+      it { is_expected.to include('>') }
     end
   end
 end
