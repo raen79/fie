@@ -160,4 +160,40 @@ RSpec.describe Fie::Commander, type: :channel do
       end
     end
   end
+
+  describe 'new method' do
+    let(:caller) { { 'value' => '15', 'id' => 'id', 'class' => 'class' } }
+
+    before do
+      subscription.define_singleton_method(:new_method) do |arg1:, arg2:|
+        puts @caller
+        puts @controller_name
+        puts @action_name
+        puts @connection_uuid
+        puts state.attributes
+      end
+
+      subscription.singleton_class.method_added(:new_method)
+    end
+
+    let(:new_method_parameters) do
+      {
+        'caller' => caller,
+        'controller_name' => controller_name,
+        'action_name' => action_name,
+        'arg1' => 123,
+        'arg2' => 123
+      }
+    end
+
+    it 'should contain @caller, @controller_name, @action_name, and @connection_uuid instance variables and state method when called' do
+      expect(STDOUT).to receive(:puts).with(caller.symbolize_keys)
+      expect(STDOUT).to receive(:puts).with(controller_name)
+      expect(STDOUT).to receive(:puts).with(action_name)
+      expect(STDOUT).to receive(:puts).with(connection_uuid)
+      expect(STDOUT).to receive(:puts).with(subscription.state.attributes)
+
+      subscription.new_method(new_method_parameters)
+    end
+  end
 end
