@@ -1,7 +1,9 @@
 # Changelog
 ## Unreleased
-### 0.2.0
+### 0.3.0
 - Add transitions
+- Fix slow typing causing missed characters
+### 0.2.0
 - Add fie nil types
 - Solve security issues
 - Improve pools speed
