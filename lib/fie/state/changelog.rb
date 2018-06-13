@@ -45,7 +45,7 @@ module Fie
 
       def update_object_value(object:, node_name:, value:)
         if object.is_a?(Array)
-          node_name = node_name.to_i if object.is_a?(Array)
+          node_name = node_name.to_i
           object[node_name] = value
         elsif object.is_a?(Hash)
           string_in_hash = object.keys.include? node_name

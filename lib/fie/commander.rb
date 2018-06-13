@@ -110,7 +110,7 @@ module Fie
 
       private
         def restructure_subclass_method_parameters(name)
-          alias_method("sub_#{name}", name)
+          alias_method("sub_#{ name }", name)
           remove_method(name)
           define_method(name) do |params|
             @caller = params['caller'].symbolize_keys if params['caller']
