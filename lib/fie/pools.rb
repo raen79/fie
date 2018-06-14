@@ -6,7 +6,7 @@ module Fie
 
     class << self
       def pool_name(subject)
-        "pool_#{subject}"
+        "pool_#{ subject }"
       end
 
       def publish_lazy(subject, object, sender_uuid)
