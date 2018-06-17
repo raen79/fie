@@ -3,12 +3,12 @@
 ### 0.3.0
 - Add transitions
 - Fix slow typing causing missed characters
+
+## Released
 ### 0.2.0
 - Add fie nil types
 - Solve security issues
-- Improve pools speed
-
-## Released
+- Improve pools speed (through lazy broadcast)
 ### 0.2.0pa
 - Improved pools speed (through lazy broadcast)
 ### 0.1.14

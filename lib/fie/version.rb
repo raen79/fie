@@ -1,3 +1,3 @@
 module Fie
-  VERSION = '0.2.0pa'
+  VERSION = '0.2.0'
 end
