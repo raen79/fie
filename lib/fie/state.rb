@@ -88,7 +88,7 @@ module Fie
 
     private
       def unmarshal_value(value)
-        encryptor = ActiveSupport::MessageEncryptor.new Rails.application.credentials[:secret_key_base]
+        encryptor = ActiveSupport::MessageEncryptor.new Rails.application.credentials[:secret_key_base][0, 32], Rails.application.credentials[:secret_key_base]
         decrypted_value = encryptor.decrypt_and_verify(value)
         Marshal.load(decrypted_value)
       end
