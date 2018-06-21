@@ -16,6 +16,19 @@ module Fie
 
     Element.document.add_event_listener('DOMContentLoaded') do
       cable = Cable.new
+
+      Native \
+        `window.Fie.executeCommanderMethod =
+          #{
+            -> (function_name, parameters = {}) do
+              cable.call_remote_function \
+                element: Element.body, 
+                event_name: 'calling remote function', 
+                function_name: function_name,
+                parameters: Hash.new(parameters)
+            end
+          }`
+
       Listeners.new(cable)
     end
 end

@@ -22,7 +22,7 @@ module Fie
       end
 
       def []=(name, value)
-        @element.getAttribute(name, value)
+        @element.setAttribute(name, value)
       end
 
       def add_event_listener(event_name, selector = nil, &block)
