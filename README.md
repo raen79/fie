@@ -21,7 +21,7 @@ fie therefore replaces traditional Javascript frontend frameworks while requirin
 
 1. Add the gem to your gemfile like so:
 ```ruby
-gem 'fie', '~> 0.2.1'
+gem 'fie', '~> 0.2.2'
 ```
 2. Run the bundler
 ```bash

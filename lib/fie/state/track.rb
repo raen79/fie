@@ -124,12 +124,11 @@ module Fie
         unless hash.frozen?
           hash.class_eval do
             begin
-              [:'[]=', :delete].each do |method_name|
+              ['[]=', 'delete'].each do |method_name|
                 remove_method method_name
-                remove_method :"previous_#{ method_name }"
+                remove_method "previous_#{ method_name }"
               end
-            rescue Exception => exception
-              puts exception.message
+            rescue
             end
           end
         end
@@ -143,12 +142,11 @@ module Fie
         unless array.frozen?
           array.class_eval do
             begin
-              [:'[]=', :'<<', :push, :delete_at, :delete].each do |method_name|
+              ['[]=', '<<', 'push', 'delete_at', 'delete'].each do |method_name|
                 remove_method method_name
-                remove_method :"previous_#{ method_name }"
+                remove_method "previous_#{ method_name }"
               end
-            rescue Exception => exception
-              puts exception.message
+            rescue
             end
           end
         end
@@ -178,10 +176,9 @@ module Fie
       def remove_tracked_object_methods(object, attribute_name)
         object.class_eval do
           begin
-            remove_method :"previous_#{ attribute_name }"
-            remove_method :"#{ attribute_name }"
-          rescue Exception => exception
-            puts exception.message
+            remove_method attribute_name
+            remove_method "previous_#{ attribute_name }"
+          rescue
           end
         end
       end
