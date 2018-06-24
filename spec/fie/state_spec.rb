@@ -52,9 +52,9 @@ RSpec.describe Fie::State do
       let(:marshalled) { Marshal.dump state }
       let(:unmarshalled) { Marshal.load marshalled }
 
-      subject { unmarshalled.attributes.to_json }
+      subject { unmarshalled.attributes.keys }
 
-      it { is_expected.to eq(state.attributes.to_json) }
+      it { is_expected.to eq(state.attributes.keys) }
     end
 
     describe '#permeate' do

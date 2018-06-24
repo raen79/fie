@@ -23,7 +23,7 @@ module Fie
     end
 
     def attributes
-      instance_variables_names = instance_variables - [ :@controller_name, :@action_name, :@uuid, :@view_variables ]
+      instance_variables_names = instance_variables - [ :@controller_name, :@action_name, :@uuid, :@view_variables, :@fie_tracked ]
 
       attribute_entries_array = instance_variables_names.map do |instance_variable_name|
         attribute_name = instance_variable_name.to_s.delete('@')

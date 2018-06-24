@@ -96,25 +96,31 @@ module Fie
 
       def track_changes_in_object(object)
         state = self
+        is_untracked = !object.instance_variable_defined?('@fie_tracked')
 
-        object.methods.each do |attribute_name, attribute_value|
-          is_setter = attribute_name.to_s.ends_with?('=') && attribute_name.to_s.match(/[A-Za-z]/)
+        if is_untracked
+          object.methods.each do |attribute_name, attribute_value|
+            is_setter = attribute_name.to_s.ends_with?('=') && attribute_name.to_s.match(/[A-Za-z]/)
 
-          if is_setter
-            unless object.frozen?
-              object.class_eval do
-                alias_method("previous_#{attribute_name}", attribute_name)
-                define_method(attribute_name) do |setter_value|
-                  send("previous_#{attribute_name}", setter_value)
-                  state.permeate
+            if is_setter
+              unless object.frozen?
+                object.class_eval do
+                  alias_method("previous_#{ attribute_name }", attribute_name)
+
+                  define_method(attribute_name) do |setter_value|
+                    send("previous_#{ attribute_name }", setter_value)
+                    state.permeate
+                  end
                 end
-              end
-            end
 
-            getter_name = attribute_name.to_s.chomp('=').to_sym
-            object_has_getter = object.methods.include?(getter_name)
-            if object_has_getter
-              track_changes_in_objects object.send(getter_name)
+                object.instance_variable_set('@fie_tracked', true)
+              end
+
+              getter_name = attribute_name.to_s.chomp('=').to_sym
+              object_has_getter = object.methods.include?(getter_name)
+              if object_has_getter
+                track_changes_in_objects object.send(getter_name)
+              end
             end
           end
         end
@@ -157,23 +163,28 @@ module Fie
       end
 
       def untrack_changes_in_object(object)
-        object.methods.each do |attribute_name, attribute_value|
-          is_setter = attribute_name.to_s.ends_with?('=') &&
-            attribute_name.to_s.match(/[A-Za-z]/) &&
-            !attribute_name.to_s.start_with?('previous_')
+        is_tracked = object.instance_variable_defined?('@fie_tracked')
 
-          if is_setter
-            remove_tracked_object_methods(object, attribute_name) unless object.frozen?
+        if is_tracked
+          object.methods.each do |attribute_name, attribute_value|
+            is_setter = attribute_name.to_s.ends_with?('=') &&
+              attribute_name.to_s.match(/[A-Za-z]/) &&
+              !attribute_name.to_s.start_with?('previous_')
 
-            getter_name = attribute_name.to_s.chomp('=').to_sym
-            object_has_getter = object.methods.include?(getter_name)
+            if is_setter
+              remove_tracked_object_methods(object, attribute_name) unless object.frozen?
 
-            untrack_changes_in_objects object.send(getter_name) if object_has_getter
+              getter_name = attribute_name.to_s.chomp('=').to_sym
+              object_has_getter = object.methods.include?(getter_name)
+
+              untrack_changes_in_objects object.send(getter_name) if object_has_getter
+            end
           end
         end
       end
 
       def remove_tracked_object_methods(object, attribute_name)
+        object.remove_instance_variable('@fie_tracked') if object.instance_variable_defined?('@fie_tracked')
         object.class_eval do
           begin
             remove_method attribute_name
