@@ -5,6 +5,9 @@
 - Fix slow typing causing missed characters
 
 ## Released
+### 0.2.3
+- Added support for circular dependencies (e.g. Active Records has_many <-> belongs_to)
+- Added `executeCommanderMethod` JavaScript function to activate commander methods from JavaScript
 ### 0.2.2
 - Untrack bug caused by inconsistent use of symbols and strings solved
 ### 0.2.1
