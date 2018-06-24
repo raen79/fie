@@ -5,6 +5,8 @@
 - Fix slow typing causing missed characters
 
 ## Released
+### 0.2.2
+- Untrack bug caused by inconsistent use of symbols and strings solved
 ### 0.2.1
 - fie now works with ruby versions > 2.4 (fixed encryption bug)
 ### 0.2.0
