@@ -1,7 +1,7 @@
 # Changelog
 ## Unreleased
 ### 0.3.0
-- Add transitions
+- Add a testing framework
 - Fix slow typing causing missed characters
 
 ## Released
