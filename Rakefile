@@ -2,6 +2,7 @@ require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 require 'opal'
 require 'opal/util'
+require 'uglifier'
 
 RSpec::Core::RakeTask.new(:spec)
 
@@ -16,6 +17,6 @@ task :build_opal do
   builder.build('fie')
 
   File.open('./vendor/javascript/fie.js', 'w+') do |file|
-    file << Opal::Util.uglify(builder.to_s)
+    file << Uglifier.compile(builder.to_s, mangle: true)
   end
 end

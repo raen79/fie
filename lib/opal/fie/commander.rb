@@ -1,5 +1,5 @@
 require 'fie/native'
-require 'diffhtml'
+require 'diffhtml.min'
 
 module Fie
   class Commander < Fie::Native::ActionCableChannel
