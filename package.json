@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "diffhtml": "^1.0.0-beta.9",
-    "opal": "^0.6.4",
+    "es6-object-assign": "^1.1.0",
     "uglifyjs": "^2.4.11"
   }
 }

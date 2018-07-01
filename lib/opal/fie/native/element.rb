@@ -39,6 +39,10 @@ module Fie
         end
       end
 
+      def innerHTML
+        @element.innerHTML
+      end
+
       def query_selector(selector)
         Element.new(element: @element.querySelector(selector))
       end

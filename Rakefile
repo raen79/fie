@@ -11,12 +11,12 @@ task :default => :spec
 desc 'Build opal app'
 task :build_opal do
   Opal.append_path('./lib/opal')
-  Opal.append_path('./node_modules/diffhtml/dist')
+  Opal.append_path('./node_modules')
 
   builder = Opal::Builder.new
   builder.build('fie')
 
   File.open('./vendor/javascript/fie.js', 'w+') do |file|
-    file << Uglifier.compile(builder.to_s, mangle: true)
+    file << Uglifier.compile(builder.to_s, mangle: true, harmony: true)
   end
 end

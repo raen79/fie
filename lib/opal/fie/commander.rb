@@ -1,5 +1,5 @@
 require 'fie/native'
-require 'diffhtml.min'
+require 'diffhtml/dist/diffhtml.min'
 
 module Fie
   class Commander < Fie::Native::ActionCableChannel
@@ -22,6 +22,7 @@ module Fie
     def process_command(command, parameters = {})
       case command
       when 'refresh_view'
+        $$.diff.innerHTML(Element.fie_body.unwrapped_element, $$.diff.html(Element.fie_body.innerHTML))
         $$.diff.innerHTML(Element.fie_body.unwrapped_element, parameters['html'])
         @event.dispatch
       when 'subscribe_to_pools'
