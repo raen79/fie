@@ -57,7 +57,9 @@ module Fie
         end
 
         Element.fie_body.add_event_listener('keydown', typing_input_selector) do |event|
-          unless event.keyCode == 13
+          if event.keyCode == 13
+            event.target.focusout
+          else
             @timer.clear
 
             input_element = Element.new(element: event.target)
