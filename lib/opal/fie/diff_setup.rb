@@ -13,9 +13,11 @@ class DiffSetup
             syncTreeHook: (oldTree, newTree) => {
               if (newTree.nodeName === 'input') {
                 let oldElement = document.querySelector('[name="' + newTree.attributes.name + '"]');
+
                 if (oldElement != undefined && oldElement.attributes['fie-ignore'] != undefined) {
                   newTree.nodeValue = oldElement.value;
                   newTree.attributes.value = oldElement.value;
+                  newTree.attributes.autofocus = '';
                   newTree.attributes['fie-ignore'] = oldElement.attributes['fie-ignore'];
                 }
 
