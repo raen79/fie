@@ -1,10 +1,14 @@
 # Changelog
 ## Unreleased
-### 0.3.0
+### 0.4.0
 - Add a testing framework
-- Fix slow typing causing missed characters
 
 ## Released
+### 0.3.0
+- Fixed slow typing causing missed characters
+- Fixed inputs blurring on rerender
+- Reduced JS size
+- Improved performance
 ### 0.2.3
 - Added support for circular dependencies (e.g. Active Records has_many <-> belongs_to)
 - Added `executeCommanderMethod` JavaScript function to activate commander methods from JavaScript
