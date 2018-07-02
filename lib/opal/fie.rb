@@ -5,10 +5,11 @@ module Fie
 
     include Fie::Native
 
+    DiffSetup.run
+
     Element.document.add_event_listener('DOMContentLoaded') do
       cable = Cable.new
 
-      DiffSetup.run
       ExposeMethods.run
 
       Listeners.new(cable)

@@ -1,4 +1,5 @@
 require 'fie/native'
+require 'securerandom'
 
 module Fie
   class Listeners
@@ -61,10 +62,18 @@ module Fie
 
             input_element = Element.new(element: event.target)
 
-            @timer = Timeout.new(500) do
+            @timer = Timeout.new(300) do
               update_state_using_changelog(input_element)
             end
           end
+        end
+
+        Element.fie_body.add_event_listener('focusin', typing_input_selector) do |event|
+          event.target.setAttribute('fie-ignore', SecureRandom.uuid)
+        end
+
+        Element.fie_body.add_event_listener('focusout', typing_input_selector) do |event|
+          event.target.removeAttribute('fie-ignore')
         end
 
         Element.fie_body.add_event_listener('change', non_typing_input_selector) do |event|

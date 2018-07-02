@@ -11,8 +11,15 @@ class DiffSetup
         `diff.use(
           Object.assign(_ => {}, {
             syncTreeHook: (oldTree, newTree) => {
-              if (newTree.attributes != undefined && newTree.attributes['fie-ignore'] != undefined && Object.keys(oldTree).length > 0) {
-                return oldTree;
+              if (newTree.nodeName === 'input') {
+                let oldElement = document.querySelector('[name="' + newTree.attributes.name + '"]');
+                if (oldElement != undefined && oldElement.attributes['fie-ignore'] != undefined) {
+                  newTree.nodeValue = oldElement.value;
+                  newTree.attributes.value = oldElement.value;
+                  newTree.attributes['fie-ignore'] = oldElement.attributes['fie-ignore'];
+                }
+
+                return newTree;
               }
             }
           })
