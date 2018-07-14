@@ -2,6 +2,9 @@
 ## Unreleased
 ### 0.4.0
 - Add a testing framework
+### 0.3.1
+- Converted all Opal to ES6
+- Reduced JS size to ~50kb down from originally ~600kb
 
 ## Released
 ### 0.3.0

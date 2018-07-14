@@ -99,13 +99,11 @@ Usage is documented and described in our [guide](https://fie.eranpeer.co/guide).
 
 ## Development
 
-Your first step is to run `npm install` within the root folder in order to install the relevant node packages. Also run `npm install uglify-js -g`.
+Your first step is to run `npm install` within the root folder in order to install the relevant NodeJS packages.
 
-The project does not use javascript, but opal. To build the opal project (in `lib/opal`), run `rake build_opal`. If you are actively developing the frontend using opal, run `bundle exec guard` which will start a watcher for the opal source and will recompile in the `vendor/javascript` folder on every change.
+To work on the JavaScript, begin by running `npm run build`. This will start a watcher that will automatically transpile your ES6 within the `lib/javascript` folder into a bundle within `vendor/javascript/fie.js` using webpacker.
 
-To transfer gems and node packages to opal, add `Opal.use_gem(gem_name)` or `Opal.append_path('./node_modules/module_name/dist')` in the Rakefile within the `build_opal` task.
-
-The ruby files can be found within `lib/fie` and their development is the same as in any other gem.
+The Ruby files can be found within `lib/fie` and their development is the same as in any other gem.
 
 Please add tests if you add new features or resolve bugs.
 
