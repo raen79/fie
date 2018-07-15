@@ -196,4 +196,17 @@ RSpec.describe Fie::Commander, type: :channel do
       subscription.new_method(new_method_parameters)
     end
   end
+
+  describe '#connected?' do
+    context 'when connection exists' do
+      subject { subscription.connected? }
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when connection does not exist' do
+      before { subscription.unsubscribed }
+      subject { subscription.connected? }
+      it { is_expected.to be_falsy }
+    end
+  end
 end

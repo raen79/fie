@@ -58,6 +58,11 @@ module Fie
         }
     end
 
+    def connected?
+      commander_name = Commander.commander_name(params[:identifier])
+      !redis.get(commander_name).nil?
+    end
+
     private
       def redis
         $redis ||= Redis.new
