@@ -1,9 +1,13 @@
 # Changelog
 ## Unreleased
-### 0.4.0
+### 0.5.0
 - Add a testing framework
+### 0.4.0
+- Marginaly improve rendering speed by only re-rendering partials that contain a variable that changed.
 
 ## Released
+### 0.3.2
+- Added a `connect?` method to the commander to verify if the client is still connected to the commander. Particularly useful in long running processes.
 ### 0.3.1
 - Converted all Opal to ES6
 - Reduced JS size to ~50kb down from originally ~600kb
