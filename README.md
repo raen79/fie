@@ -27,7 +27,7 @@ gem 'fie', '~> 0.3.2'
 ```bash
 $ bundle install
 ```
-3. Replace yield in your main layout with `render template: 'layouts/fie' %>`. Below is an example.
+3. Replace yield in your main layout with `<%= render template: 'layouts/fie' %>`. Below is an example.
     * Old:
     ```erb
     <!DOCTYPE html>
