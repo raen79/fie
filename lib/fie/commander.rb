@@ -17,6 +17,8 @@ module Fie
         controller_name: params['controller_name'],
         action_name: params['action_name'],
         uuid: self.params[:identifier]
+      
+      execute_js_function('Fie.triggerFieReadyEvent')
     end
 
     def unsubscribed

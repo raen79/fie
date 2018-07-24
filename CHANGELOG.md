@@ -4,6 +4,11 @@
 - Add a testing framework
 ### 0.4.0
 - Marginaly improve rendering speed by only re-rendering partials that contain a variable that changed.
+### 0.3.3
+- Fixed bugs in `Fie.executeCommanderMethod`
+- `Util.execJS` now accepts function names such as `module.funcName`
+- Event `fieReady` will now be triggered once the state is initially loaded.
+
 
 ## Released
 ### 0.3.2
