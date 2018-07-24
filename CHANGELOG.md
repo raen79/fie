@@ -4,13 +4,13 @@
 - Add a testing framework
 ### 0.4.0
 - Marginaly improve rendering speed by only re-rendering partials that contain a variable that changed.
+
+
+## Released
 ### 0.3.3
 - Fixed bugs in `Fie.executeCommanderMethod`
 - `Util.execJS` now accepts function names such as `module.funcName`
 - Event `fieReady` will now be triggered once the state is initially loaded.
-
-
-## Released
 ### 0.3.2
 - Added a `connect?` method to the commander to verify if the client is still connected to the commander. Particularly useful in long running processes.
 ### 0.3.1
