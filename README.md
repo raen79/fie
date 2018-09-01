@@ -20,45 +20,55 @@ fie therefore replaces traditional Javascript frontend frameworks while requirin
 ## Installation
 
 1. Add the gem to your gemfile like so:
+
 ```ruby
-gem 'fie', '~> 0.3.3'
+gem 'fie', '~> 0.3.4'
 ```
+
 2. Run the bundler
+
 ```bash
 $ bundle install
 ```
+
 3. Replace yield in your main layout with `<%= render template: 'layouts/fie' %>`. Below is an example.
-    * Old:
-    ```erb
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Fie</title>
-      <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-      <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    </head>
 
-    <body>
-      <%= yield %>
-    </body>
-    </html>
-    ```
-    * New:
-    ```erb
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>Fie</title>
-        <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-      </head>
+   - Old:
 
-      <body>
-        <%= render template: 'layouts/fie' %>
-      </body>
-    </html>
-    ```
+   ```erb
+   <!DOCTYPE html>
+   <html>
+   <head>
+     <title>Fie</title>
+     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+   </head>
+
+   <body>
+     <%= yield %>
+   </body>
+   </html>
+   ```
+
+   - New:
+
+   ```erb
+   <!DOCTYPE html>
+   <html>
+     <head>
+       <title>Fie</title>
+       <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+       <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+     </head>
+
+     <body>
+       <%= render template: 'layouts/fie' %>
+     </body>
+   </html>
+   ```
+
 4. Add `//= require fie` to your `app/assets/application.js` file.
+
 ```javascript
 //= require rails-ujs
 //= require turbolinks
@@ -67,6 +77,7 @@ $ bundle install
 ```
 
 5. Ensure action cable uses Redis in development by changing async to redis in `config/cable.yml`.
+
 ```yaml
 redis: &redis
   adapter: redis
@@ -117,4 +128,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Fie project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/fie/blob/master/CODE_OF_CONDUCT.md). 
+Everyone interacting in the Fie project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/fie/blob/master/CODE_OF_CONDUCT.md).
