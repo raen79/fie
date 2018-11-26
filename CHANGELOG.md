@@ -12,6 +12,11 @@
 
 ## Released
 
+### 0.3.5
+
+- Fixed security vulnerabilities
+- Added `change` HTML DOM binding
+
 ### 0.3.4
 
 - Added support for namespaced controllers such as `Module::FooController`
