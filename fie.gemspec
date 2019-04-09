@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'action-cable-testing', '~> 0.3.1', '>= 0.3.1'
   spec.add_development_dependency 'coveralls', '~> 0.8.21', '>= 0.8.21'
   spec.add_development_dependency 'pry-rails', '~> 0.3.6', '>= 0.3.6'
-  spec.add_runtime_dependency 'redis', '~> 4.0', '>= 4.0.1'
-  spec.add_runtime_dependency 'rails', '~> 5.2', '>= 5.2.0'
-  spec.add_runtime_dependency 'railties', '~> 5.2', '>= 5.2.0'
+  spec.add_development_dependency 'redis', '~> 4.0', '>= 4.0.1'
+  spec.add_development_dependency 'rails', '~> 5.2', '>= 5.2.0'
+  spec.add_development_dependency 'railties', '~> 5.2', '>= 5.2.0'
 end

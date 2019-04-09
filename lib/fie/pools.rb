@@ -15,7 +15,7 @@ module Fie
           command: 'publish_to_pool_lazy',
           parameters: {
             subject: subject,
-            object: Marshal.dump(object)
+            object: Marshal.dump(object).force_encoding(Encoding::UTF_8)
           }
       end
 
@@ -25,7 +25,7 @@ module Fie
           command: 'publish_to_pool',
           parameters: {
             subject: subject,
-            object: Marshal.dump(object),
+            object: Marshal.dump(object).force_encoding(Encoding::UTF_8),
             sender_uuid: sender_uuid
           }
       end

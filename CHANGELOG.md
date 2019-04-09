@@ -12,6 +12,10 @@
 
 ## Released
 
+### 0.3.6
+- Fixed encoding issue in pools
+- Removed unnecessary dependencies
+
 ### 0.3.5
 
 - Fixed security vulnerabilities
