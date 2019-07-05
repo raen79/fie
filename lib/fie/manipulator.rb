@@ -1,10 +1,8 @@
 require 'fie/commander_closed'
-require 'fie/helper'
+require 'redis'
 
 module Fie
   module Manipulator
-    include Fie::Helper
-
     def state
       commander_name = Commander.commander_name(@fie_connection_uuid)
 
@@ -33,5 +31,10 @@ module Fie
       commander_name = Commander.commander_name(@fie_connection_uuid)
       !redis.get(commander_name).nil?
     end
+
+    private
+      def redis
+        $redis ||= Redis.new
+      end
   end
 end

@@ -1,11 +1,9 @@
 require 'fie/state'
 require 'fie/pools'
-require 'fie/helper'
+require 'redis'
 
 module Fie
   class Commander < ActionCable::Channel::Base
-    include Fie::Helper
-
     @@pools_subjects = Set.new
     @@disable_override = false
 
@@ -19,7 +17,7 @@ module Fie
         controller_name: params['controller_name'],
         action_name: params['action_name'],
         uuid: self.params[:identifier]
-
+      
       execute_js_function('Fie.triggerFieReadyEvent')
     end
 
@@ -68,6 +66,10 @@ module Fie
     end
 
     private
+      def redis
+        $redis ||= Redis.new
+      end
+
       def method_keywords_hash(method_name, params)
         method(method_name).parameters.map do |_, parameter_name|
           [parameter_name, params[parameter_name.to_s]]
@@ -100,7 +102,7 @@ module Fie
       def method_added(name)
         super_commander_method_names = [
           :subscribed,
-          :refresh_view,
+          :refresh_view, 
           :identifier,
           :state,
           :unsubscribed,
@@ -127,7 +129,7 @@ module Fie
             if caller = params['caller']
               @caller = { value: caller['value'], id: caller['id'], class: caller['class'] }
             end
-
+            
             @controller_name = params['controller_name']
             @action_name = params['action_name']
             @connection_uuid = self.params['identifier']
